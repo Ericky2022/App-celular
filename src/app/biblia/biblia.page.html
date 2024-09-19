@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Bíblia</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/">Voltar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let versiculo of versiculos">
+      <h2>{{ versiculo.book_name }} {{ versiculo.chapter }}:{{ versiculo.verse }}</h2>
+      <p>{{ versiculo.text }}</p>
+    </ion-item>
+  </ion-list>
+</ion-content>
