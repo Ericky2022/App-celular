@@ -8,10 +8,21 @@
 </ion-header>
 
 <ion-content>
-  <ion-list>
-    <ion-item *ngFor="let versiculo of versiculos">
-      <h2>{{ versiculo.book_name }} {{ versiculo.chapter }}:{{ versiculo.verse }}</h2>
-      <p>{{ versiculo.text }}</p>
-    </ion-item>
-  </ion-list>
+
+  <ion-accordion-group>
+    <ion-accordion *ngFor="let livro of livros" (click)="toggleLivro(livro.name)">
+      <ion-item slot="header">
+        <ion-label>{{ livro.name }}</ion-label>
+        <ion-list *ngIf="livroExpandido === livro.name"> <!-- Exibe capítulos apenas se o livro estiver expandido -->
+          <ion-item *ngFor="let capitulo of (livro.capitulos | keyvalue)">
+            <!-- <ion-label>Capítulo {{ capitulo.key }}</ion-label> -->
+            <ion-label (click)="abrirModal(toNumber(capitulo.key), livro.name)">
+              Capítulo {{ capitulo.key }}
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-item>
+    </ion-accordion>
+  </ion-accordion-group>
 </ion-content>
+
