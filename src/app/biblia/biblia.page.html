@@ -14,10 +14,9 @@
       <ion-item slot="header">
         <ion-label>{{ livro.name }}</ion-label>
         <ion-list *ngIf="livroExpandido === livro.name"> <!-- Exibe capítulos apenas se o livro estiver expandido -->
-          <ion-item *ngFor="let capitulo of (livro.capitulos | keyvalue)">
-            <!-- <ion-label>Capítulo {{ capitulo.key }}</ion-label> -->
-            <ion-label (click)="abrirModal(toNumber(capitulo.key), livro.name)">
-              Capítulo {{ capitulo.key }}
+          <ion-item *ngFor="let capitulo of getCapitulos(livro.capitulos)">
+            <ion-label (click)="abrirModal(capitulo, livro.name)">
+              Capítulo {{ capitulo }}
             </ion-label>
           </ion-item>
         </ion-list>
@@ -25,4 +24,3 @@
     </ion-accordion>
   </ion-accordion-group>
 </ion-content>
-

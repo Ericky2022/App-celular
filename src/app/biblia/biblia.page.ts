@@ -22,9 +22,11 @@ interface Livro {
 })
 export class BibliaPage implements OnInit {
   livros: Livro[] = [];
+  livrosFiltrados: Livro[] = []; // Nova propriedade para livros filtrados
   livroExpandido: string | null = null; // Adicionado para controlar o livro expandido
+  searchTerm: string = ''; // Propriedade para armazenar o termo de busca
 
-  constructor(private bibliaService: BibliaService, private modalController: ModalController) { }
+  constructor(private bibliaService: BibliaService, private modalController: ModalController) {}
 
   ngOnInit() {
     this.bibliaService.getBiblia().subscribe(data => {
@@ -46,6 +48,7 @@ export class BibliaPage implements OnInit {
 
       const livroObj = livrosMap.get(livro)!; // Type assertion, porque sabemos que existe
 
+      // Adiciona o versículo sem reordenação
       if (!livroObj.capitulos[capitulo]) {
         livroObj.capitulos[capitulo] = [];
       }
@@ -53,17 +56,19 @@ export class BibliaPage implements OnInit {
       livroObj.capitulos[capitulo].push(versiculo);
     });
 
-     // Ordenar os livros e os capítulos
-  this.livros = Array.from(livrosMap.values()).map(livro => {
-    const capitulosOrdenados = Object.keys(livro.capitulos)
-      .sort((a, b) => parseInt(a) - parseInt(b)) // Usar parseInt para a comparação
-      .reduce((acc, key) => {
-        acc[parseInt(key)] = livro.capitulos[parseInt(key)];
-        return acc;
-      }, {} as { [key: number]: Versiculo[] });
+    // Converte de volta para array, mantendo a ordem de inserção
+    this.livros = Array.from(livrosMap.values());
+  }
 
-    return { ...livro, capitulos: capitulosOrdenados };
-  });
+  filterLivros() {
+    const term = this.searchTerm.toLowerCase();
+    this.livrosFiltrados = this.livros.filter(livro =>
+      livro.name.toLowerCase().includes(term)
+    );
+  }
+
+  getCapitulos(capitulos: { [capitulo: number]: Versiculo[] }): number[] {
+    return Object.keys(capitulos).map(Number); // Converte as chaves para números
   }
 
   abrirModal(capitulo: number, livro: string) {
@@ -77,14 +82,9 @@ export class BibliaPage implements OnInit {
     }).then(modal => modal.present());
   }
 
-  // Função para converter string para número
-  toNumber(value: string): number {
-    return Number(value);
-  }
-
   // Método para alternar o livro expandido
   toggleLivro(livro: string) {
     this.livroExpandido = this.livroExpandido === livro ? null : livro;
-    console.log("toggleLivro", this.livroExpandido)
+    console.log("toggleLivro", this.livroExpandido);
   }
 }
