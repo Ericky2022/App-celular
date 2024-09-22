@@ -27,16 +27,22 @@
 
   <ion-accordion-group>
     <ion-accordion *ngFor="let livro of livrosFiltrados" (click)="toggleLivro(livro.name)">
-      <ion-item slot="header">
-        <ion-label>{{ livro.name }}</ion-label>
-        <div *ngIf="livroExpandido === livro.name">
-          <ion-item *ngFor="let capitulo of getCapitulos(livro.capitulos)">
-            <ion-label (click)="abrirModal(capitulo, livro.name)">
-              Capítulo {{ capitulo }}
-            </ion-label>
-          </ion-item>
+      <ion-card slot="header">
+        <div class="titulo">
+          <ion-icon (click)="lerVersiculo(livro.name)" name="volume-high"></ion-icon>
+          <ion-label>{{ livro.name }}</ion-label>
         </div>
-      </ion-item>
+        <div *ngIf="livroExpandido === livro.name">
+          <ion-card *ngFor="let capitulo of getCapitulos(livro.capitulos)">
+            <div class="titulo">
+              <ion-icon (click)="lerVersiculo(livro.name + 'capitulo ' + capitulo)" name="volume-high"></ion-icon>
+              <ion-label (click)="abrirModal(capitulo, livro.name)">
+                Capítulo {{ capitulo }}
+              </ion-label>
+            </div>
+          </ion-card>
+        </div>
+      </ion-card>
     </ion-accordion>
   </ion-accordion-group>
 </ion-content>

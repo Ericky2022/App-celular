@@ -12,6 +12,18 @@
     </ion-item>
   </ion-list>
 </ion-content> -->
+<!-- <ion-header>
+  <div class="titulo">
+    <h1>Palavra de Deus</h1>
+    <h3>Alimento para sua Alma</h3>
+  </div>
+  <img class="background-image" src="../../assets/img/biblia-cruz.jpg" alt="">
+</ion-header>
+
+<ion-content>
+  <ion-button expand="full" routerLink="/biblia">Leia a Bíblia</ion-button>
+</ion-content> -->
+
 <ion-header>
   <div class="titulo">
     <h1>Palavra de Deus</h1>
@@ -22,4 +34,16 @@
 
 <ion-content>
   <ion-button expand="full" routerLink="/biblia">Leia a Bíblia</ion-button>
+
+  <!-- Campo para o sentimento -->
+  <ion-item>
+    <ion-label position="stacked">Como você está se sentindo?</ion-label>
+    <ion-input [(ngModel)]="sentimento" placeholder="Digite seu sentimento"></ion-input>
+  </ion-item>
+  <ion-button expand="full" (click)="verificarSentimento()">Enviar</ion-button>
+
+  <!-- Exibir o versículo baseado no sentimento -->
+  <div *ngIf="versiculoSentimento" class="resultado-versiculo">
+    <p>{{ versiculoSentimento }}</p>
+  </div>
 </ion-content>

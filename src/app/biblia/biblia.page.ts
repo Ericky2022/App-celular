@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { BibliaService } from '../services/biblia.service';
 import { VersiculoModalComponent } from '../versiculo-modal/versiculo-modal.component';
+import { TextToSpeechService } from '../services/text-to-speech.service';
 
 interface Versiculo {
   book_name: string;
@@ -30,7 +31,11 @@ export class BibliaPage implements OnInit {
   resultados: string[] = [];
 
 
-  constructor(private bibliaService: BibliaService, private modalController: ModalController) {}
+  constructor(
+    private bibliaService: BibliaService,
+    private modalController: ModalController,
+    private tts: TextToSpeechService
+  ) {}
 
   ngOnInit() {
     this.bibliaService.getBiblia().subscribe(data => {
@@ -38,6 +43,10 @@ export class BibliaPage implements OnInit {
       this.livrosFiltrados = this.livros;
       console.log(this.livros);
     });
+  }
+
+  lerVersiculo(versiculo: string) {
+    this.tts.speak(versiculo);
   }
 
   organizarLivros(versiculos: Versiculo[]) {

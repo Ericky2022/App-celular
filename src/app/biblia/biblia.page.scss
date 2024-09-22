@@ -3,9 +3,21 @@ ion-content {
 }
 
 ion-accordion {
-  margin-bottom: 10px; // Espaçamento entre os acordions
+  // margin-bottom: 10px; // Espaçamento entre os acordions
 }
 
 ion-label {
   width: 100%;
+}
+
+ion-icon {
+  margin-right: 10px; // Espaçamento à direita do ícone
+}
+
+.titulo{
+  color: #000000;
+  font-size: 18px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
 }
