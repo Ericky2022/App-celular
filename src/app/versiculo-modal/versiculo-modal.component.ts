@@ -11,6 +11,7 @@ export class VersiculoModalComponent {
   @Input() livro: string = ''; // Inicialize como string vazia
   @Input() capitulo: number = 0; // Inicialize como 0
   @Output() modalClosed = new EventEmitter<void>(); // Novo EventEmitter
+  @Input() versiculoFocado: any; // Adicionado para receber o versículo focado
 
   constructor(private modalController: ModalController) { }
 
@@ -21,5 +22,9 @@ export class VersiculoModalComponent {
 
   toggleMarcacao(versiculo: any) {
     versiculo.marcado = !versiculo.marcado; // Alterna o estado da marcação
+  }
+
+  isVersiculoFocado(versiculo: any): boolean {
+    return this.versiculoFocado && versiculo.verse === this.versiculoFocado.verse;
   }
 }
