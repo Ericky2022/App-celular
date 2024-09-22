@@ -25,3 +25,24 @@
 #container a {
   text-decoration: none;
 }
+
+ion-header {
+  position: relative; /* Permite que os elementos filhos sejam posicionados em relação ao header */
+}
+
+.background-image {
+  position: absolute; /* Posiciona a imagem atrás do texto */
+  top: 0; /* Alinha ao topo do header */
+  left: 0; /* Alinha à esquerda do header */
+  width: 100%; /* Faz a imagem ocupar toda a largura do header */
+  height: 100%; /* Faz a imagem ocupar toda a altura do header */
+  object-fit: cover; /* Mantém a proporção da imagem */
+  z-index: -1; /* Coloca a imagem atrás do texto */
+}
+
+.titulo {
+  position: relative; /* Garante que o texto fique na frente da imagem */
+  color: white; /* Altera a cor do texto para melhor visibilidade */
+  text-align: center; /* Centraliza o texto */
+  padding: 20px; /* Adiciona um espaçamento ao redor do texto */
+}

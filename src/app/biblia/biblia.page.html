@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Bíblia</ion-title>
+    <div *ngIf="livroExpandido">{{ livroSelecionado }}</div>
     <ion-buttons slot="end">
       <ion-button routerLink="/">Voltar</ion-button>
     </ion-buttons>
@@ -8,18 +9,31 @@
 </ion-header>
 
 <ion-content>
+  <ion-toolbar>
+
+    <ion-searchbar
+    [(ngModel)]="searchTerm"
+    (ionInput)="filtrarResultados($event)"
+    (ionChange)="termoPesquisa()"
+    placeholder="Pesquisar livro ou versículo"
+    clearInput
+    ></ion-searchbar>
+  </ion-toolbar>
+
+
+<ion-content>
 
   <ion-accordion-group>
     <ion-accordion *ngFor="let livro of livros" (click)="toggleLivro(livro.name)">
       <ion-item slot="header">
         <ion-label>{{ livro.name }}</ion-label>
-        <ion-list *ngIf="livroExpandido === livro.name"> <!-- Exibe capítulos apenas se o livro estiver expandido -->
+        <div *ngIf="livroExpandido === livro.name"> <!-- Exibe capítulos apenas se o livro estiver expandido -->
           <ion-item *ngFor="let capitulo of getCapitulos(livro.capitulos)">
             <ion-label (click)="abrirModal(capitulo, livro.name)">
               Capítulo {{ capitulo }}
             </ion-label>
           </ion-item>
-        </ion-list>
+        </div>
       </ion-item>
     </ion-accordion>
   </ion-accordion-group>

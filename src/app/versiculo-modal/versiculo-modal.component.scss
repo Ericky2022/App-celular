@@ -1,0 +1,16 @@
+.lido {
+  text-decoration: line-through; /* Risca o texto dos versículos lidos */
+  color: gray; /* Muda a cor do texto */
+}
+
+
+.marcado {
+  background-color: rgb(255, 174, 0); /* Cor do marca-texto */
+  padding: 0.2em; /* Um pouco de espaço ao redor do texto */
+  border-radius: 3px; /* Cantos arredondados */
+}
+
+.formataTexto {
+  font-size: 1.2em; /* Aumenta o tamanho do texto */
+  margin: 4px;
+}
