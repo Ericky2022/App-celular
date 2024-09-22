@@ -1,0 +1,26 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ livro }} {{ capitulo }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="fecharModal()">Fechar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<!-- <ion-content>
+  <ion-list>
+    <ion-item *ngFor="let versiculo of versiculos">
+      <ion-checkbox [(ngModel)]="versiculo.lido"></ion-checkbox>  Checkbox para marcar como lido
+      <h2>{{ versiculo.verse }}: {{ versiculo.text }}</h2>
+    </ion-item>
+  </ion-list>
+</ion-content> -->
+
+
+<ion-content>
+  <ion-list>
+    <ion-item class="formataTexto" *ngFor="let versiculo of versiculos" (click)="toggleMarcacao(versiculo)">
+      <div [class.marcado]="versiculo.marcado">{{ versiculo.verse }}: {{ versiculo.text }}</div>
+    </ion-item>
+  </ion-list>
+</ion-content>
