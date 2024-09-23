@@ -36,11 +36,10 @@
   <ion-button expand="full" routerLink="/biblia">Leia a Bíblia</ion-button>
 
   <!-- Campo para o sentimento -->
-  <ion-item>
+  <ion-item button (click)="abrirModal()">
     <ion-label position="stacked">Como você está se sentindo?</ion-label>
-    <ion-input [(ngModel)]="sentimento" placeholder="Digite seu sentimento"></ion-input>
+    <ion-input placeholder="Clique aqui para digitar" readonly></ion-input>
   </ion-item>
-  <ion-button expand="full" (click)="verificarSentimento()">Enviar</ion-button>
 
   <!-- Exibir o versículo baseado no sentimento -->
   <div *ngIf="versiculoSentimento" class="resultado-versiculo">

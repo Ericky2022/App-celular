@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BibliaService } from '../services/biblia.service';
+import { ModalController } from '@ionic/angular';
+import { SentimentoModalComponent } from '../sentimento-modal/sentimento-modal.component';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +14,7 @@ export class HomePage implements OnInit {
   sentimento: string = '';
   versiculoSentimento: string = '';
 
-  constructor(private bibliaService: BibliaService) {
+  constructor(private bibliaService: BibliaService, private modalController: ModalController) {
     this.bibliaService.getBiblia().subscribe(data => {
       this.versiculos = data.verses;
       this.livros = data.livros;
@@ -20,11 +22,25 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.bibliaService.getBiblia().subscribe(data => {
-      this.versiculos = data.verses; // Armazena os versículos
-      this.livros = data.livros;
-    });
+    // this.bibliaService.getBiblia().subscribe(data => {
+    //   this.versiculos = data.verses; // Armazena os versículos
+    //   this.livros = data.livros;
+    // });
     console.log(this.livros); // Mostra os versículos no console
+  }
+
+  async abrirModal() {
+    const modal = await this.modalController.create({
+      component: SentimentoModalComponent
+    });
+
+    modal.onDidDismiss().then((result) => {
+      if (result.data) {
+        this.versiculoSentimento = result.data.versiculo;
+      }
+    });
+
+    await modal.present();
   }
 
   sentimentosVersiculos: { [key: string]: string } = {

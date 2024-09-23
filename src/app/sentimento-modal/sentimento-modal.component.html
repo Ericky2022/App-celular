@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Sentimento</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">Fechar</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="stacked">Como você está se sentindo?</ion-label>
+    <ion-input [(ngModel)]="sentimento" placeholder="Digite seu sentimento" (ionInput)="verificarSentimento()"></ion-input>
+  </ion-item>
+
+  <div *ngIf="versiculo" class="resultado-versiculo">
+    <p>{{ versiculo }}</p>
+  </div>
+
+  <ion-button expand="full" (click)="closeModal()">Quero uma reflexão</ion-button>
+</ion-content>
