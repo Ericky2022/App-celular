@@ -125,8 +125,10 @@ export class SentimentoModalComponent {
       sentimento.startsWith(sentimentoLower)
     );
 
-    if (this.sentimentosVersiculos[sentimentoLower]) {
-      const versiculos = this.sentimentosVersiculos[sentimentoLower];
+    if (this.sugestoes.length > 0) {
+      // Seleciona um sentimento aleatório da lista de sugestões
+      const sentimentoAleatorio = this.sugestoes[Math.floor(Math.random() * this.sugestoes.length)];
+      const versiculos = this.sentimentosVersiculos[sentimentoAleatorio];
       this.versiculo = versiculos[Math.floor(Math.random() * versiculos.length)]; // Seleciona um versículo aleatório
       this.mensagemErro = ''; // Limpa a mensagem de erro
     } else {
@@ -134,6 +136,7 @@ export class SentimentoModalComponent {
       this.mensagemErro = 'Desculpe, não consegui gerar uma reflexão no momento.';
     }
   }
+
 
   selecionarSugestao(sentimento: string) {
     this.sentimento = sentimento;
