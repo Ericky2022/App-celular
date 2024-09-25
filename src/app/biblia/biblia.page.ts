@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { BibliaService } from '../services/biblia.service';
 import { VersiculoModalComponent } from '../versiculo-modal/versiculo-modal.component';
+import { TextToSpeechService } from '../services/text-to-speech.service';
+import { BibliaHistoricaService } from '../services/biblia-historica.service';
 
 interface Versiculo {
   book_name: string;
@@ -29,16 +31,27 @@ interface LivroHistorico {
 })
 export class BibliaPage implements OnInit {
   livros: Livro[] = [];
-  livrosFiltrados: Livro[] = []; // Nova propriedade para livros filtrados
-  livroExpandido: string | null = null; // Adicionado para controlar o livro expandido
-  searchTerm: string = ''; // Propriedade para armazenar o termo de busca
+  livrosFiltrados: Livro[] = [];
+  livroExpandido: string | null = null;
+  livroSelecionado: string | null = null;
+  capituloSelecionado: number | null = null;
+  searchTerm: string = '';
+  resultados: string[] = [];
+  livrosHistoricos: LivroHistorico[] = [];
+  historicoAtual: string[] = [];
+  contextoHistorico: string = '';
 
-  constructor(private bibliaService: BibliaService, private modalController: ModalController) {}
+
+  constructor(
+    private bibliaService: BibliaService,
+    private modalController: ModalController,
+    private tts: TextToSpeechService,
+    private bibliaHistoricaService: BibliaHistoricaService
+  ) {}
 
   ngOnInit() {
     this.bibliaService.getBiblia().subscribe(data => {
       this.organizarLivros(data.verses);
-      this.livrosFiltrados = this.livros;
       this.livrosFiltrados = this.livros;
       console.log(this.livros);
     });
@@ -52,10 +65,6 @@ export class BibliaPage implements OnInit {
     }
     // this.contextoHistorico = this.bibliaHistoricaService.historicoLivro += livroHistorico?.paragrafos ;
     console.log('historico', this.contextoHistorico);
-  }
-
-  lerVersiculo(versiculo: string) {
-    this.tts.speak(versiculo);
   }
 
   lerVersiculo(versiculo: string) {
@@ -116,10 +125,16 @@ export class BibliaPage implements OnInit {
         versiculos: this.livros.find(l => l.name === livro)?.capitulos[capitulo],
         livro: livro,
         capitulo: capitulo,
-        versiculoFocado: versiculoFocado // Passa o versículo focado,
         versiculoFocado: versiculoFocado // Passa o versículo focado
       }
-    }).then(modal => modal.present());
+    }).then(modal => {
+      modal.onDidDismiss().then(() => {
+        this.filterLivros();
+        this.livroExpandido = livro;
+      });
+      modal.present();
+    });
+    console.log('Livro ',this.livroExpandido, 'versiculo focado', versiculoFocado?.verse);
   }
 
   filtrarResultados(event: any) {
@@ -181,8 +196,16 @@ export class BibliaPage implements OnInit {
   //   console.log('Depois: ', this.livroExpandido); // Log do novo estado
   // }
   toggleLivro(livro: string) {
-    this.livroExpandido = this.livroExpandido === livro ? null : livro;
-    console.log("toggleLivro", this.livroExpandido);
+    // Se o livro clicado já está expandido, fecha ele, senão expande apenas ele e fecha os outros
+    if (this.livroExpandido === livro) {
+      this.livroExpandido = null; // Fecha o livro se ele já estava expandido
+    } else {
+      this.livroExpandido = livro; // Expande o novo livro e fecha os outros
+    }
+
+    // Obter o contexto histórico do livro expandido
+    this.obterHistorico(livro);
+    console.log('Livro Expandido: ', this.livroExpandido);
   }
 
 }
