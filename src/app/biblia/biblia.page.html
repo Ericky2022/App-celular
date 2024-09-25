@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>Bíblia</ion-title>
+    <div *ngIf="livroExpandido">{{ livroSelecionado }}</div>
     <ion-buttons slot="end">
       <ion-button routerLink="/">Voltar</ion-button>
     </ion-buttons>
@@ -27,48 +28,16 @@
     </ion-item>
   </ion-list>
   <ion-accordion-group>
-    <ion-accordion *ngFor="let livro of livrosFiltrados">
-      <ion-card slot="header" (click)="toggleLivro(livro.name)">
-        <div class="titulo">
-          <ion-icon (click)="lerVersiculo(livro.name)" name="volume-high"></ion-icon>
-          <ion-label>{{ livro.name }}</ion-label>
-        </div>
-      </ion-card>
-
-      <!-- Mostra o conteúdo apenas se o acordeão correspondente estiver expandido -->
-      <ion-list slot="content" *ngIf="livroExpandido === livro.name">
-        <!-- Capítulos -->
-        <ng-container *ngIf="getCapitulos(livro.capitulos) as capitulos">
-          <ion-grid>
-            <ion-row>
-              <ion-col size="3" *ngFor="let capitulo of capitulos">
-                <ion-item lines="none">
-                  <div class="titulo" style="text-align: center">
-                    <ion-label (click)="abrirModal(capitulo, livro.name)">
-                      {{ capitulo }}
-                    </ion-label>
-                  </div>
-                </ion-item>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </ng-container>
-
-        <!-- Contexto Histórico -->
-        <ion-list>
-          <div class="alinha-contexto">
-            <ion-icon (click)="lerVersiculo('Contexto Histórico')" name="volume-high"></ion-icon>
-            <h1 class="historico-titulo" (click)="obterHistorico(livro.name)">Contexto Histórico</h1>
-          </div>
-          <div class="alinha-contexto">
-            <ion-icon (click)="lerVersiculo(livro.name)" name="volume-high"></ion-icon>
-            <p class="historico-titulo-livro">{{ livro.name }}</p>
-          </div>
-          <div style="margin-left: 20px;">
-            <ion-icon (click)="lerVersiculo(contextoHistorico)" name="volume-high"></ion-icon>
-          </div>
-            <div class="historico" [innerHTML]="contextoHistorico"></div>
+    <ion-accordion *ngFor="let livro of livros" (click)="toggleLivro(livro.name)">
+      <ion-item slot="header">
+        <ion-label>{{ livro.name }}</ion-label>
+        <ion-list *ngIf="livroExpandido === livro.name"> <!-- Exibe capítulos apenas se o livro estiver expandido -->
+          <ion-item *ngFor="let capitulo of getCapitulos(livro.capitulos)">
+            <ion-label (click)="abrirModal(capitulo, livro.name)">
+              Capítulo {{ capitulo }}
+            </ion-label>
+          </ion-item>
         </ion-list>
-      </ion-list>
+      </ion-item>
     </ion-accordion>
   </ion-accordion-group>

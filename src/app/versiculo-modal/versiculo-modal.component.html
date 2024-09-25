@@ -8,7 +8,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<!-- <ion-content>
   <ion-list>
     <ion-card *ngFor="let versiculo of versiculos"
               [ngClass]="{'highlight': isVersiculoFocado(versiculo), 'marked': versiculo.marcado}"
@@ -19,6 +19,27 @@
         </div>
         <p class="format">{{ versiculo.verse }}: {{ versiculo.text }}</p>
       </div>
+    </ion-card>
+  </ion-list>
+</ion-content> -->
+
+<!--
+<ion-content>
+  <ion-list>
+    <ion-item class="formataTexto" *ngFor="let versiculo of versiculos" (click)="toggleMarcacao(versiculo)">
+      <div [class.marcado]="versiculo.marcado">{{ versiculo.verse }}: {{ versiculo.text }}</div>
+    </ion-item>
+  </ion-list>
+</ion-content> -->
+
+<ion-content>
+  <ion-list>
+    <ion-card *ngFor="let versiculo of versiculos" [ngClass]="{'highlight': isVersiculoFocado(versiculo)}">
+      <div class="versiculo" style="display: flex;
+    align-items: center;">
+      <ion-icon (click)="lerVersiculo(versiculo.text)" name="volume-high" ></ion-icon>
+      <p>{{ versiculo.verse }}: {{ versiculo.text }}</p>
+    </div>
     </ion-card>
   </ion-list>
 </ion-content>
