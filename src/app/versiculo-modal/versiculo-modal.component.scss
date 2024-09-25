@@ -1,0 +1,55 @@
+.lido {
+  text-decoration: line-through; /* Risca o texto dos versículos lidos */
+  color: gray; /* Muda a cor do texto */
+}
+
+
+.marcado {
+  background-color: rgb(255, 174, 0); /* Cor do marca-texto */
+  padding: 0.2em; /* Um pouco de espaço ao redor do texto */
+  border-radius: 3px; /* Cantos arredondados */
+}
+
+.formataTexto {
+  font-size: 1.2em; /* Aumenta o tamanho do texto */
+  margin: 4px;
+}
+
+.highlight {
+  background-color: yellow; /* ou outra cor que você preferir */
+}
+
+.marked {
+  background-color: rgb(43, 255, 0); /* Cor de marca texto */
+}
+
+.versiculo ion-icon {
+  color: #000000 !important;
+  font-size: 16px !important;
+  // padding: 8px !important;
+  display: flex ;
+  align-items: center !important;
+    width: 16px !important;
+    height: 16px !important;
+    // margin-right: 10px;
+}
+
+.versiculo {
+  color: #000000 !important;
+  font-size: 16px !important;
+  padding: 8px !important;
+  display: flex ;
+  align-items: center !important;
+    // margin-right: 10px;
+}
+
+.voz{
+  width: 16px !important;
+  height: 16px !important;
+  margin-right: 12px;
+}
+
+.format{
+  text-align: justify;
+  margin-right: 16px;
+}

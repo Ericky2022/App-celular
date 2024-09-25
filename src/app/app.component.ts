@@ -18,7 +18,7 @@ export class AppComponent implements OnInit {
 
     const notifications = [
       {
-        title: 'Bom dia! Deus mando te dizer:',
+        title: 'Bom dia! Deus mandou te dizer:',
         body: 'Esta é a sua primeira notificação do dia.',
         id: 1,
         schedule: {

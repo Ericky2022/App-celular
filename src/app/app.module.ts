@@ -6,6 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { VersiculoModalComponent } from './versiculo-modal/versiculo-modal.component';
+import { SentimentoModalModule } from './sentimento-modal/sentimento-modal.module';
 
 @NgModule({
   declarations: [AppComponent, VersiculoModalComponent],
@@ -13,7 +14,8 @@ import { VersiculoModalComponent } from './versiculo-modal/versiculo-modal.compo
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    SentimentoModalModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
