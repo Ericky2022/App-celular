@@ -143,7 +143,6 @@ export class SentimentoModalComponent implements AfterViewInit {
     }
   }
 
-
   selecionarSugestao(sentimento: string) {
     this.sentimento = sentimento;
     const versiculos = this.sentimentosVersiculos[sentimento];
