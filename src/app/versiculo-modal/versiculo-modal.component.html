@@ -36,11 +36,31 @@
       }"
       (click)="toggleMarcacao(versiculo)">
         <div class="versiculo" style="display: flex; align-items: center;" >
-          <div class="voz">
+          <!-- <div class="voz">
             <ion-icon (click)="lerVersiculo(versiculo.text, versiculo)" name="volume-high"></ion-icon>
-          </div>
+          </div> -->
           <p>{{ versiculo.verse }}: {{ versiculo.text }}</p>
         </div>
     </ion-card>
   </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <div style="display: flex; justify-content: space-around;">
+      <ion-button (click)="voltarVersiculo()">
+        <ion-icon name="play-back-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="pararLeitura()">
+        <ion-icon name="stop-outline"></ion-icon>
+      </ion-button>
+      <ion-button (click)="playPauseLeitura()">
+        <ion-icon [name]="lendo ? 'pause-outline' : 'play-outline'"></ion-icon>
+      </ion-button>
+      <ion-button (click)="avancarVersiculo()">
+        <ion-icon name="play-forward-outline"></ion-icon>
+      </ion-button>
+    </div>
+  </ion-toolbar>
+</ion-footer>
+
