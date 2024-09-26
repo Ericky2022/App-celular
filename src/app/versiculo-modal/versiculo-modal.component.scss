@@ -1,11 +1,10 @@
 .lido {
-  text-decoration: line-through; /* Risca o texto dos versículos lidos */
   color: gray; /* Muda a cor do texto */
 }
 
 
 .marcado {
-  background-color: rgb(255, 174, 0); /* Cor do marca-texto */
+  background-color: rgb(206, 202, 202); /* Cor do marca-texto */
   padding: 0.2em; /* Um pouco de espaço ao redor do texto */
   border-radius: 3px; /* Cantos arredondados */
 }
@@ -16,7 +15,7 @@
 }
 
 .highlight {
-  background-color: yellow; /* ou outra cor que você preferir */
+  background-color: rgba(46, 46, 44, 0.082); /* ou outra cor que você preferir */
 }
 
 .marked {
@@ -29,8 +28,8 @@
   // padding: 8px !important;
   display: flex ;
   align-items: center !important;
-    width: 16px !important;
-    height: 16px !important;
+    // width: 16px !important;
+    // height: 16px !important;
     // margin-right: 10px;
 }
 
@@ -52,4 +51,23 @@
 .format{
   text-align: justify;
   margin-right: 16px;
+}
+
+.versiculo p {
+  color: black; /* Cor padrão */
+  text-decoration: none !important;
+  margin: 8px 0px !important;
+}
+
+.lendo p {
+  color: blue; /* Cor quando o versículo está sendo lido */
+}
+
+.lido p {
+  color: green; /* Cor após o versículo ser lido */
+  background-color: rgb(206, 202, 202);
+}
+
+.marcado {
+  // border: 2px solid gold; /* Exemplo de marcador */
 }

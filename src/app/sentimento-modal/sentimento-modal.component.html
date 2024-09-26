@@ -10,7 +10,7 @@
 <ion-content>
   <ion-item>
     <ion-label position="stacked">Como você está se sentindo?</ion-label>
-    <ion-input [(ngModel)]="sentimento" placeholder="Digite seu sentimento" (ionInput)="verificarSentimento()"></ion-input>
+    <ion-input #sentimentoInput [(ngModel)]="sentimento" placeholder="Digite seu sentimento" (ionInput)="verificarSentimento()"></ion-input>
   </ion-item>
 
   <div *ngIf="sugestoes.length > 0" class="sugestoes">

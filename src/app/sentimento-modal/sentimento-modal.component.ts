@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { IonInput, ModalController } from '@ionic/angular';
 import { IAService } from '../services/ia.service'; // Importe o serviço de IA
 import { HttpErrorResponse } from '@angular/common/http';
 import { TextToSpeechService } from '../services/text-to-speech.service';
@@ -9,7 +9,9 @@ import { TextToSpeechService } from '../services/text-to-speech.service';
   templateUrl: './sentimento-modal.component.html',
   styleUrls: ['./sentimento-modal.component.scss'],
 })
-export class SentimentoModalComponent {
+export class SentimentoModalComponent implements AfterViewInit {
+  @ViewChild('sentimentoInput', { static: false }) sentimentoInputElement!: IonInput;
+
   sentimento: string = '';
   versiculo: string = '';
   reflexao: string = '';
@@ -22,6 +24,11 @@ export class SentimentoModalComponent {
   //   'ansioso': 'Filipenses 4:6-7 - Não andeis ansiosos de coisa alguma.',
   //   'grato': '1 Tessalonicenses 5:18 - Em tudo dai graças.'
   // };
+
+  ngAfterViewInit() {
+    // Foca automaticamente no input assim que a view é inicializada
+    this.sentimentoInputElement.setFocus();
+  }
 
   sentimentosVersiculos: { [key: string]: string[] } = {
     'feliz': [
@@ -126,10 +133,9 @@ export class SentimentoModalComponent {
     );
 
     if (this.sugestoes.length > 0) {
-      // Seleciona um sentimento aleatório da lista de sugestões
       const sentimentoAleatorio = this.sugestoes[Math.floor(Math.random() * this.sugestoes.length)];
       const versiculos = this.sentimentosVersiculos[sentimentoAleatorio];
-      this.versiculo = versiculos[Math.floor(Math.random() * versiculos.length)]; // Seleciona um versículo aleatório
+      this.versiculo = versiculos[Math.floor(Math.random() * versiculos.length)];
       this.mensagemErro = ''; // Limpa a mensagem de erro
     } else {
       this.versiculo = ''; // Limpa o versículo

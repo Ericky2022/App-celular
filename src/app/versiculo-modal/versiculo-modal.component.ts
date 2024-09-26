@@ -13,6 +13,7 @@ export class VersiculoModalComponent {
   @Input() capitulo: number = 0; // Inicialize como 0
   @Output() modalClosed = new EventEmitter<void>(); // Novo EventEmitter
   @Input() versiculoFocado: any; // Adicionado para receber o versículo focado
+  versiculoAtual: any = null;  // Propriedade para rastrear o versículo em leitura
 
   constructor(private modalController: ModalController, private tts: TextToSpeechService) { }
 
@@ -21,8 +22,17 @@ export class VersiculoModalComponent {
     this.modalController.dismiss();
   }
 
-  lerVersiculo(versiculo: string) {
-    this.tts.speak(versiculo);
+  lerVersiculo(text: string, versiculo: any) {
+    this.versiculoAtual = versiculo;  // Define o versículo atual como sendo lido
+    versiculo.lido = false;  // Define como não lido antes da leitura
+    this.tts.speak(text);
+
+    // Simula o tempo de leitura, substitua por um callback do serviço de leitura se necessário
+    const tempoLeitura = text.split(' ').length * 300; // Aproximadamente 200ms por palavra
+    setTimeout(() => {
+      this.versiculoAtual = null;  // Limpa o versículo atual após a leitura
+      versiculo.lido = true;  // Marca o versículo como lido após a leitura
+    }, tempoLeitura);
   }
 
   toggleMarcacao(versiculo: any) {
