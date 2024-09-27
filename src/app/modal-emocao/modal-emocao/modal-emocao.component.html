@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <h5 class="modal-title">Escolha uma emoção</h5>
+</div>
+<div class="modal-body">
+  <!-- Campo de input para digitar a emoção -->
+  <input type="text" [(ngModel)]="termoBusca" (input)="buscarEmocao()" placeholder="Digite sua emoção" />
+
+  <!-- Exibir o versículo sorteado -->
+  <div *ngIf="versiculo">
+    <p><strong>Versículo:</strong> {{ versiculo }}</p>
+    <!-- Botão para exibir a reflexão -->
+    <button (click)="mostrarReflexao()">Ver Reflexão</button>
+  </div>
+</div>
+<ion-content>
+
+  <div class="modal-footer">
+    <!-- Exibir a reflexão e o botão para ler em voz alta -->
+    <!-- Botão para ler a reflexão em voz alta e tocar a música -->
+    <button (click)="lerReflexao()">Ler Reflexão</button>
+    <div *ngIf="reflexao">
+      <p><strong>Reflexão:</strong> {{ reflexao }}</p>
+    </div>
+  </div>
+</ion-content>

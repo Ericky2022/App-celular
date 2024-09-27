@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BibliaService } from '../services/biblia.service';
 import { ModalController } from '@ionic/angular';
 import { SentimentoModalComponent } from '../sentimento-modal/sentimento-modal.component';
+import { EmocoesModalComponent } from '../modal-emocao/modal-emocao/modal-emocao.component';
 
 @Component({
   selector: 'app-home',
@@ -41,6 +42,14 @@ export class HomePage implements OnInit {
     });
 
     await modal.present();
+  }
+
+
+  async abrirModalEmocoes() {
+    const modal = await this.modalController.create({
+      component: EmocoesModalComponent
+    });
+    return await modal.present();
   }
 
   sentimentosVersiculos: { [key: string]: string } = {

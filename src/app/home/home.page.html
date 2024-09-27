@@ -41,6 +41,11 @@
     <ion-input placeholder="Clique aqui para digitar" readonly></ion-input>
   </ion-item>
 
+  <ion-item button (click)="abrirModalEmocoes()">
+    <ion-label position="stacked">qual emoção você está se sentindo?</ion-label>
+    <ion-input placeholder="Clique aqui para digitar" readonly></ion-input>
+  </ion-item>
+
   <!-- Exibir o versículo baseado no sentimento -->
   <!-- <div *ngIf="versiculoSentimento" class="resultado-versiculo">
     <p>{{ versiculoSentimento }}</p>

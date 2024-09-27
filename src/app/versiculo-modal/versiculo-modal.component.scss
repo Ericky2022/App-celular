@@ -1,12 +1,12 @@
 .lido {
-  color: gray; /* Muda a cor do texto */
+  color: rgb(226, 223, 223); /* Muda a cor do texto */
 }
 
 
 .marcado {
-  background-color: rgb(206, 202, 202); /* Cor do marca-texto */
-  padding: 0.2em; /* Um pouco de espaço ao redor do texto */
-  border-radius: 3px; /* Cantos arredondados */
+  background-color:rgb(226, 223, 223); /* Cor do marca-texto */
+  // padding: 0.2em; /* Um pouco de espaço ao redor do texto */
+  // border-radius: 3px; /* Cantos arredondados */
 }
 
 .formataTexto {
@@ -87,4 +87,9 @@
 ion-icon {
   width: 24px !important;
   height: 24px !important;
+}
+
+p{
+  margin: 4px 16px;
+  text-align: justify;
 }

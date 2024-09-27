@@ -7,15 +7,18 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { VersiculoModalComponent } from './versiculo-modal/versiculo-modal.component';
 import { SentimentoModalModule } from './sentimento-modal/sentimento-modal.module';
+import { EmocoesModalComponent } from './modal-emocao/modal-emocao/modal-emocao.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [AppComponent, VersiculoModalComponent],
+  declarations: [AppComponent, VersiculoModalComponent, EmocoesModalComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    SentimentoModalModule
+    SentimentoModalModule,
+    FormsModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

@@ -1,0 +1,26 @@
+{
+  "sentimentos": {
+      "feliz": [
+          {
+              "versiculo": "Salmos 118:24 - Este é o dia que o Senhor fez; regozijemo-nos e alegremo-nos nele.",
+              "reflexao": "Para aplicar o Salmos 118:24 no dia a dia, comece cada manhã com uma breve reflexão ou oração de gratidão. Ao acordar, reserve um momento para reconhecer que o dia é uma nova oportunidade concedida por Deus. Isso pode ajudar a moldar sua mentalidade e atitude ao longo do dia. Além disso, procure encontrar pequenas razões para se alegrar, mesmo nas tarefas cotidianas. Ao invés de ver obrigações como fardos, tente enxergar nelas como oportunidades para crescer e aprender. Compartilhe essa alegria com os outros, seja por meio de palavras de encorajamento ou atos de bondade, criando um ambiente mais positivo ao seu redor. Por último, ao enfrentar desafios, lembre-se dessa passagem como um lembrete de que cada dia traz consigo a possibilidade de renovação e esperança. Essa mudança de perspectiva pode ajudá-lo a lidar com dificuldades com mais leveza, transformando cada obstáculo em uma chance de crescimento e aprendizado."
+          },
+          {
+              "versiculo": "Salmos 37:4 - Agrada-te do Senhor, e ele satisfará os desejos do teu coração.",
+              "reflexao": "Salmos 37:4 nos convida a entender a importância de encontrar prazer em Deus. Quando nos alegramos na presença do Senhor, alinhamos nossos desejos com Sua vontade. Essa relação íntima e sincera com Deus transforma não apenas o que desejamos, mas também o porquê desses desejos. Ao nos concentrarmos em agradá-Lo, começamos a discernir o que realmente importa em nossas vidas, movendo-nos em direção a um propósito maior. A promessa de que Ele satisfará os desejos do nosso coração não é uma garantia de que tudo o que queremos se realizará, mas sim uma afirmação de que, ao nos entregarmos a Deus, nossos desejos se tornam mais alinhados com Seus planos. À medida que nos aproximamos d'Ele, nossos anseios mudam e se refinam. Essa satisfação vem de uma profunda conexão espiritual que transcende os desejos materiais e superficiais, levando-nos a buscar uma vida de significado e plenitude. Finalmente, essa passagem nos chama a confiar em Deus, mesmo quando os nossos desejos parecem distantes ou não atendidos. A verdadeira alegria e satisfação vêm do relacionamento com o Senhor, que nos guia e orienta em cada passo. Ao agradar-nos d'Ele, aprendemos a esperar com paciência e fé, sabendo que Ele está trabalhando em nosso favor e que, no tempo certo, os desejos do nosso coração serão realizados de acordo com Sua vontade perfeita."
+          }
+      ],
+      "Esperançoso": [
+          {
+              "versiculo": "Alegrai-vos sempre.",
+              "reflexao": "A alegria é uma escolha diária. Mesmo em meio às dificuldades, podemos encontrar motivos para nos alegrar e refletir a luz de Deus."
+          }
+      ],
+      "Confiante": [
+          {
+              "versiculo": "Entrega o teu caminho ao Senhor; confia nele, e ele tudo fará.",
+              "reflexao": "Entregar nossos planos a Deus nos dá paz. Quando confiamos Nele, sabemos que Ele está no controle de tudo."
+          }
+      ]
+  }
+}

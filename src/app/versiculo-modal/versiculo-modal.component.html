@@ -28,20 +28,18 @@
 
 <ion-content>
   <ion-list>
-    <ion-card [class.marcado]="versiculo.marcado" *ngFor="let versiculo of versiculos"
+    <div [class.marcado]="versiculo.marcado" *ngFor="let versiculo of versiculos"
       [ngClass]="{
         'highlight': isVersiculoFocado(versiculo),
         'lendo': versiculoAtual === versiculo,
         'lido': versiculo.lido
       }"
-      (click)="toggleMarcacao(versiculo)">
-        <div class="versiculo" style="display: flex; align-items: center;" >
+      (click)="toggleMarcacao(versiculo)" style="display: flex; align-items: center;">
           <!-- <div class="voz">
             <ion-icon (click)="lerVersiculo(versiculo.text, versiculo)" name="volume-high"></ion-icon>
           </div> -->
           <p>{{ versiculo.verse }}: {{ versiculo.text }}</p>
-        </div>
-    </ion-card>
+    </div>
   </ion-list>
 </ion-content>
 
