@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BibliaService } from '../services/biblia.service';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { SentimentoModalComponent } from '../sentimento-modal/sentimento-modal.component';
 import { EmocoesModalComponent } from '../modal-emocao/modal-emocao/modal-emocao.component';
 
@@ -15,19 +15,19 @@ export class HomePage implements OnInit {
   sentimento: string = '';
   versiculoSentimento: string = '';
 
-  constructor(private bibliaService: BibliaService, private modalController: ModalController) {
+  constructor(private bibliaService: BibliaService, private modalController: ModalController, private platform: Platform) {
     this.bibliaService.getBiblia().subscribe(data => {
       this.versiculos = data.verses;
       this.livros = data.livros;
     });
+
+    this.platform.backButton.subscribeWithPriority(10, () => {
+      this.fecharApp();
+    });
   }
 
   ngOnInit() {
-    // this.bibliaService.getBiblia().subscribe(data => {
-    //   this.versiculos = data.verses; // Armazena os versículos
-    //   this.livros = data.livros;
-    // });
-    console.log(this.livros); // Mostra os versículos no console
+    console.log(this.livros);
   }
 
   async abrirModal() {
@@ -44,7 +44,6 @@ export class HomePage implements OnInit {
     await modal.present();
   }
 
-
   async abrirModalEmocoes() {
     const modal = await this.modalController.create({
       component: EmocoesModalComponent
@@ -57,11 +56,15 @@ export class HomePage implements OnInit {
     'triste': 'Salmos 34:18 - Perto está o Senhor dos que têm o coração quebrantado.',
     'ansioso': 'Filipenses 4:6-7 - Não andeis ansiosos de coisa alguma.',
     'grato': '1 Tessalonicenses 5:18 - Em tudo dai graças.'
-    // Adicione mais sentimentos e versículos conforme necessário
   };
 
   verificarSentimento() {
     const versiculo = this.sentimentosVersiculos[this.sentimento.toLowerCase()];
     this.versiculoSentimento = versiculo ? versiculo : 'Desculpe, não tenho um versículo para isso.';
+  }
+
+  fecharApp() {
+    // Fecha o aplicativo
+    navigator.app.exitApp(); // Agora deve funcionar sem erro
   }
 }

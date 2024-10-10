@@ -1,25 +1,35 @@
+
 <div class="modal-header">
   <h5 class="modal-title">Escolha uma emoção</h5>
+  <button (click)="closeModal()">X</button>
 </div>
-<div class="modal-body">
-  <!-- Campo de input para digitar a emoção -->
-  <input type="text" [(ngModel)]="termoBusca" (input)="buscarEmocao()" placeholder="Digite sua emoção" />
+  <ion-item>
+    <!-- Campo de input para digitar a emoção -->
+    <ion-label position="stacked">Como você está se sentindo?</ion-label>
+    <ion-input #sentimentoInput [(ngModel)]="termoBusca" placeholder="Digite seu sentimento" (ionInput)="buscarEmocao()"></ion-input>
+  </ion-item>
+  <div class="modal-body">
+    <!-- <input type="text" [(ngModel)]="termoBusca" (input)="buscarEmocao()" placeholder="Digite sua emoção" /> -->
 
-  <!-- Exibir o versículo sorteado -->
-  <div *ngIf="versiculo">
-    <p><strong>Versículo:</strong> {{ versiculo }}</p>
-    <!-- Botão para exibir a reflexão -->
-    <button (click)="mostrarReflexao()">Ver Reflexão</button>
+    <!-- Exibir o versículo sorteado -->
+     <ion-item>
+
+       <div *ngIf="versiculo">
+         <p><strong>Versículo:</strong> {{ versiculo }}</p>
+         <!-- Botão para exibir a reflexão -->
+         <button (click)="mostrarReflexao()">Quero uma reflexão</button>
+         <div class="modal-footer">
+           <!-- Exibir a reflexão e o botão para ler em voz alta -->
+           <!-- Botão para ler a reflexão em voz alta e tocar a música -->
+           <div *ngIf="reflexao">
+             <ion-icon (click)="lerReflexao()" name="volume-high"></ion-icon>
+             <p><strong>Reflexão:</strong> {{ reflexao }}</p>
+           </div>
+         </div>
+        </div>
+      </ion-item>
   </div>
-</div>
+
 <ion-content>
 
-  <div class="modal-footer">
-    <!-- Exibir a reflexão e o botão para ler em voz alta -->
-    <!-- Botão para ler a reflexão em voz alta e tocar a música -->
-    <button (click)="lerReflexao()">Ler Reflexão</button>
-    <div *ngIf="reflexao">
-      <p><strong>Reflexão:</strong> {{ reflexao }}</p>
-    </div>
-  </div>
 </ion-content>
