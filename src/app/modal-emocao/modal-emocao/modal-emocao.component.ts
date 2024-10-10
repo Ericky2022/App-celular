@@ -29,21 +29,13 @@ export class EmocoesModalComponent implements OnInit {
     });
 
     // Inicializa o áudio da música de fundo
-    // this.audio = new Audio('assets/louvor-teste.mp3');
     this.audio = new Audio('assets/louvor2.mp3');
     this.audio.loop = true;  // Para a música continuar em loop enquanto a reflexão é lida
   }
 
   // Função chamada ao digitar no campo de busca
   buscarEmocao(): void {
-    // const emocao = this.termoBusca.toLowerCase();
-    // if (this.dadosEmocao[emocao]) {
-    //   this.sortearVersiculo(emocao);
-    // } else {
-    //   this.versiculo = '';
-    //   this.reflexao = '';
-    // }
-    const sentimentoLower = this.termoBusca.toLowerCase(); // Certifique-se de que 'termoBusca' é a variável correta
+    const sentimentoLower = this.termoBusca.toLowerCase();
     this.sugestoes = Object.keys(this.dadosEmocao).filter(sentimento =>
       sentimento.startsWith(sentimentoLower)
     );
@@ -51,12 +43,10 @@ export class EmocoesModalComponent implements OnInit {
     if (this.sugestoes.length > 0) {
       const sentimentoAleatorio = this.sugestoes[Math.floor(Math.random() * this.sugestoes.length)];
 
-      // Verifica se o sentimentoAleatorio existe nos dadosEmocao
       if (this.dadosEmocao[sentimentoAleatorio]) {
         const versiculos = this.dadosEmocao[sentimentoAleatorio];
         const versiculoSorteado = versiculos[Math.floor(Math.random() * versiculos.length)];
         this.versiculo = versiculoSorteado.versiculo; // Acessa o versículo
-        // this.reflexao = versiculoSorteado.reflexao; // Acessa a reflexão
         this.mensagemErro = ''; // Limpa a mensagem de erro
       }
     } else {
@@ -79,12 +69,67 @@ export class EmocoesModalComponent implements OnInit {
   mostrarReflexao(): void {
     const emocao = this.termoBusca.toLowerCase();
     const versiculos = this.dadosEmocao[emocao];
-    const versiculoSelecionado = versiculos.find((v: { versiculo: string, reflexao: string }) => v.versiculo === this.versiculo);
+
+    // Verifica se há versículos para a emoção
+    if (!versiculos) {
+        console.error("Nenhum versículo encontrado para a emoção:", emocao);
+        return;
+    }
+
+    const versiculoSelecionado = versiculos.find((v: { versiculo: string }) => v.versiculo === this.versiculo);
 
     if (versiculoSelecionado) {
-      this.reflexao = versiculoSelecionado.reflexao;
+        // Verifica se a reflexão é uma string ou um array
+        if (typeof versiculoSelecionado.reflexao === 'string') {
+            // Divide a string em parágrafos
+            this.reflexao = versiculoSelecionado.reflexao.split('\n\n').join('\n\n');
+        } else if (Array.isArray(versiculoSelecionado.reflexao)) {
+            // Se for um array, junta os elementos com quebras de linha
+            this.reflexao = versiculoSelecionado.reflexao.join('\n\n');
+        } else {
+            console.error("O formato da reflexão não é suportado:", versiculoSelecionado.reflexao);
+            this.reflexao = ''; // Reseta a reflexão em caso de erro
+            return; // Saia da função para evitar atualização da interface
+        }
+
+        this.atualizarInterface(); // Atualiza a interface
+    } else {
+        console.error("Versículo não encontrado:", this.versiculo);
     }
+    console.log("Reflexão:", this.reflexao);
+}
+
+
+
+  // Método para atualizar a interface
+  atualizarInterface(): void {
+    const versiculoElemento = document.getElementById('versiculo');
+    const reflexaoElemento = document.getElementById('reflexao');
+
+    if (versiculoElemento) {
+      versiculoElemento.innerText = this.versiculo;
+    }
+
+    if (reflexaoElemento) {
+      reflexaoElemento.innerHTML = ""; // Limpa o conteúdo anterior
+
+      // Verifica se a reflexão é um array e itera sobre ele
+      if (Array.isArray(this.reflexao)) {
+        this.reflexao.forEach(paragrafo => {
+          const p = document.createElement('p');
+          p.innerText = paragrafo.trim(); // Remove espaços em branco extras
+          reflexaoElemento.appendChild(p);
+        });
+      } else {
+        // Se não for um array, pode ser que a reflexão seja uma string única
+        const p = document.createElement('p');
+        p.innerText = this.reflexao.trim();
+        reflexaoElemento.appendChild(p);
+      }
+    }
+    console.log("atualiza Interface")
   }
+
 
   // Função para ler a reflexão em voz alta e tocar a música de fundo
   lerReflexao(): void {
