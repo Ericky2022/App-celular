@@ -3,13 +3,18 @@
   padding: 1rem;
   display: flex;
   justify-content: space-between;
+
 }
 
 .modal-body {
   display: flex;
-  flex-direction: column;
+  flex-direction: column !important;
   align-items: center;
   // padding: 1rem;
+  .input-wrapper{
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 button {
@@ -30,3 +35,21 @@ button:hover {
   text-align: justify;
 }
 
+.reflexao{
+  height: auto
+}
+
+ion-content {
+  --padding-start: 16px;
+  --padding-end: 16px;
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+}
+
+.reflexao-container {
+  border: 1px solid #ccc;
+  padding: 8px;
+  margin-top: 16px;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BibliaService } from '../services/biblia.service';
 import { ModalController, Platform } from '@ionic/angular';
 import { SentimentoModalComponent } from '../sentimento-modal/sentimento-modal.component';
 import { EmocoesModalComponent } from '../modal-emocao/modal-emocao/modal-emocao.component';
+import { EmocaoServiceService } from '../services/emocao.service.service';
 
 @Component({
   selector: 'app-home',
@@ -10,25 +10,58 @@ import { EmocoesModalComponent } from '../modal-emocao/modal-emocao/modal-emocao
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
-  versiculos: any = [];
-  livros: any = [];
   sentimento: string = '';
   versiculoSentimento: string = '';
+  versiculoDia: string = ''; // Para armazenar o versículo do dia
+  dadosEmocao: any = {};
 
-  constructor(private bibliaService: BibliaService, private modalController: ModalController, private platform: Platform) {
-    this.bibliaService.getBiblia().subscribe(data => {
-      this.versiculos = data.verses;
-      this.livros = data.livros;
-    });
-
+  constructor(
+    private modalController: ModalController,
+    private platform: Platform,
+    private emocaoService: EmocaoServiceService
+  ) {
     this.platform.backButton.subscribeWithPriority(10, () => {
       this.fecharApp();
     });
   }
 
   ngOnInit() {
-    console.log(this.livros);
+    // Carrega os dados das emoções
+    this.emocaoService.getEmocoes().subscribe(data => {
+      this.dadosEmocao = data.sentimentos;
+      this.sortearVersiculoDia();
+    });
   }
+
+  sortearVersiculoDia() {
+    // Verifica se já existe um versículo armazenado para o dia atual
+    const versiculoArmazenado = localStorage.getItem('versiculoDia');
+    const dataArmazenada = localStorage.getItem('dataVersiculo');
+
+    // Obtém a data atual no formato 'YYYY-MM-DD' para comparação
+    const dataAtual = new Date().toISOString().split('T')[0];
+
+    if (versiculoArmazenado && dataArmazenada === dataAtual) {
+      // Se o versículo já foi sorteado hoje, utiliza o armazenado
+      this.versiculoDia = versiculoArmazenado;
+    } else {
+      // Caso contrário, sorteia um novo versículo
+      const versiculosFeliz = this.dadosEmocao['feliz'];
+
+      if (versiculosFeliz && versiculosFeliz.length > 0) {
+        const indiceAleatorio = Math.floor(Math.random() * versiculosFeliz.length);
+        const versiculoSorteado = versiculosFeliz[indiceAleatorio];
+        this.versiculoDia = versiculoSorteado.versiculo;
+
+        // Armazena o versículo sorteado e a data atual no localStorage
+        localStorage.setItem('versiculoDia', this.versiculoDia);
+        localStorage.setItem('dataVersiculo', dataAtual);
+      } else {
+        console.error('Nenhum versículo encontrado para o sentimento feliz.');
+      }
+    }
+  }
+
 
   async abrirModal() {
     const modal = await this.modalController.create({
@@ -51,20 +84,17 @@ export class HomePage implements OnInit {
     return await modal.present();
   }
 
-  sentimentosVersiculos: { [key: string]: string } = {
-    'feliz': 'Salmos 118:24 - Este é o dia que o Senhor fez; regozijemo-nos e alegremo-nos nele.',
-    'triste': 'Salmos 34:18 - Perto está o Senhor dos que têm o coração quebrantado.',
-    'ansioso': 'Filipenses 4:6-7 - Não andeis ansiosos de coisa alguma.',
-    'grato': '1 Tessalonicenses 5:18 - Em tudo dai graças.'
-  };
+  async abrirModalEmocoesComSentimento(sentimento: string) {
+    const modal = await this.modalController.create({
+      component: EmocoesModalComponent,
+      componentProps: { sentimentoInicial: sentimento } // Passa o sentimento como propriedade
+    });
 
-  verificarSentimento() {
-    const versiculo = this.sentimentosVersiculos[this.sentimento.toLowerCase()];
-    this.versiculoSentimento = versiculo ? versiculo : 'Desculpe, não tenho um versículo para isso.';
+    return await modal.present();
   }
 
   fecharApp() {
     // Fecha o aplicativo
-    navigator.app.exitApp(); // Agora deve funcionar sem erro
+    navigator.app.exitApp();
   }
 }

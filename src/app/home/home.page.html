@@ -35,16 +35,31 @@
 <ion-content>
   <ion-button expand="full" routerLink="/biblia">Leia a Bíblia</ion-button>
 
-  <!-- Campo para o sentimento -->
-  <!-- <ion-item button (click)="abrirModal()">
+  <ion-item (click)="abrirModalEmocoes()">
     <ion-label position="stacked">Como você está se sentindo?</ion-label>
-    <ion-input placeholder="Clique aqui para digitar" readonly></ion-input>
-  </ion-item> -->
-
-  <ion-item button (click)="abrirModalEmocoes()">
-    <ion-label position="stacked">Como você está se sentindo?</ion-label>
-    <ion-input placeholder="Clique aqui para digitar" readonly></ion-input>
+    <ion-input placeholder="Clique para digitar como se sente" readonly></ion-input>
   </ion-item>
+
+  <div class="titulo-sentimento">Como você está hoje?</div>
+  <div class="div-sentimento">
+  <ion-card class="card-sentimento" (click)="abrirModalEmocoesComSentimento('feliz')">Feliz</ion-card>
+  <ion-card class="card-sentimento" (click)="abrirModalEmocoesComSentimento('triste')">Triste</ion-card>
+  <ion-card class="card-sentimento" (click)="abrirModalEmocoesComSentimento('ansioso')">Ansioso</ion-card>
+  <ion-card class="card-sentimento" (click)="abrirModalEmocoesComSentimento('preocupado')">Preocupado</ion-card>
+  <ion-card class="card-sentimento" (click)="abrirModalEmocoesComSentimento('angustiado')">Angustiado</ion-card>
+  <ion-card class="card-sentimento" (click)="abrirModalEmocoesComSentimento('medo')">Medo</ion-card>
+  <ion-card class="card-sentimento" (click)="abrirModalEmocoesComSentimento('nervoso')">Nervoso</ion-card>
+</div>
+
+  <div class="versiculoDia">
+    Versículo do dia!
+  </div>
+
+  <ion-card-content>
+    <ion-card class="versiculoDia">
+      {{ versiculoDia }}
+    </ion-card>
+  </ion-card-content>
 
   <!-- Exibir o versículo baseado no sentimento -->
   <!-- <div *ngIf="versiculoSentimento" class="resultado-versiculo">
