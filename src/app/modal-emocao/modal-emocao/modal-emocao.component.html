@@ -14,22 +14,19 @@
     <ion-input #sentimentoInput [(ngModel)]="termoBusca" placeholder="Digite seu sentimento" (ionInput)="buscarEmocao()"></ion-input>
   </div>
 
-  <div class="modal-body">
+  <div class="modal-body" (pinch)="onPinch($event)">
     <div style="display: flex; flex-direction: column;">
       <div *ngIf="versiculo">
         <p><strong>Versículo:</strong> {{ versiculo }}</p>
-        <!-- Botão para exibir a reflexão -->
         <button *ngIf="!reflexao || reflexao.length === 0" (click)="mostrarReflexao()">Quero uma reflexão</button>
       </div>
       <div *ngIf="mensagemErro2">
         <p><strong>{{ mensagemErro2 }}</strong> {{ versiculo }}</p>
-        <!-- Botão para exibir a reflexão -->
         <button *ngIf="!reflexao || reflexao.length === 0" (click)="mostrarReflexao()">Quero uma reflexão</button>
       </div>
       <div *ngIf="reflexao && reflexao.length > 0" class="modal-footer">
         <ion-icon (click)="lerReflexao()" name="volume-high"></ion-icon>
-        <!-- Reflexão com scroll -->
-        <div id="reflexao" class="reflexao-container">
+        <div id="reflexao" class="reflexao-container" [style.fontSize.px]="fontSize">
           <p><strong>Reflexão:</strong></p>
           <div *ngFor="let paragrafo of reflexao">
             <p>{{ paragrafo }}</p>

@@ -22,6 +22,7 @@ export class EmocoesModalComponent implements OnInit, AfterViewInit {
   dadosEmocao: any = {};  // Para armazenar os dados da emoção correspondente
   audio: HTMLAudioElement = new Audio();  // Para o áudio da música de fundo
   leituraEmAndamento: boolean = false;
+  fontSize: number = 16; // Tamanho da fonte inicial
 
   constructor(private emocaoService: EmocaoServiceService, private modalController: ModalController, private cdr: ChangeDetectorRef) {}
 
@@ -40,6 +41,14 @@ export class EmocoesModalComponent implements OnInit, AfterViewInit {
     // Inicializa o áudio da música de fundo
     // this.audio = new Audio('assets/louvor2.mp3');
     this.audio.loop = true;  // Para a música continuar em loop enquanto a reflexão é lida
+  }
+
+  onPinch(event: any) {
+    if (event.scale > 1) {
+      this.fontSize += 2; // Aumenta o tamanho da fonte
+    } else {
+      this.fontSize = Math.max(12, this.fontSize - 2); // Diminui o tamanho da fonte, sem ir abaixo de 12px
+    }
   }
 
   audioPaths: string[] = [
