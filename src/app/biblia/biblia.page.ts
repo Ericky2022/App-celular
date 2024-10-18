@@ -195,12 +195,28 @@ export class BibliaPage implements OnInit {
   //   }
   //   console.log('Depois: ', this.livroExpandido); // Log do novo estado
   // }
+  // toggleLivro(livro: string) {
+  //   // Se o livro clicado já está expandido, fecha ele, senão expande apenas ele e fecha os outros
+  //   if (this.livroExpandido === livro) {
+  //     this.livroExpandido = null; // Fecha o livro se ele já estava expandido
+  //   } else {
+  //     this.livroExpandido = livro; // Expande o novo livro e fecha os outros
+  //   }
+
+  //   // Obter o contexto histórico do livro expandido
+  //   this.obterHistorico(livro);
+  //   console.log('Livro Expandido: ', this.livroExpandido);
+  // }
+
   toggleLivro(livro: string) {
-    // Se o livro clicado já está expandido, fecha ele, senão expande apenas ele e fecha os outros
+    // Se o livro clicado já está expandido, fecha ele
     if (this.livroExpandido === livro) {
       this.livroExpandido = null; // Fecha o livro se ele já estava expandido
+      this.livrosFiltrados = [...this.livros]; // Reexibe todos os livros
     } else {
-      this.livroExpandido = livro; // Expande o novo livro e fecha os outros
+      // Expande o novo livro e oculta os outros
+      this.livroExpandido = livro; // Expande o novo livro
+      this.livrosFiltrados = this.livros.filter(l => l.name === livro); // Exibe apenas o livro expandido
     }
 
     // Obter o contexto histórico do livro expandido
