@@ -35,10 +35,10 @@
 <ion-content>
   <ion-button expand="full" routerLink="/biblia">Leia a Bíblia</ion-button>
 
-  <ion-item (click)="abrirModalEmocoes()">
+  <ion-card (click)="abrirModalEmocoes()" class="input-sentimento">
     <ion-label position="stacked">Como você está se sentindo?</ion-label>
     <ion-input placeholder="Clique para digitar como se sente" readonly></ion-input>
-  </ion-item>
+  </ion-card>
 
   <div class="titulo-sentimento">Como você está hoje?</div>
   <div class="div-sentimento">
@@ -55,8 +55,8 @@
     Versículo do dia!
   </div>
 
-  <ion-card-content>
-    <ion-card class="versiculoDia">
+  <ion-card-content style="padding: 0;">
+    <ion-card class="versiculoDiaTexto">
       {{ versiculoDia }}
     </ion-card>
   </ion-card-content>

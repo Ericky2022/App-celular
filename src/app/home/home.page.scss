@@ -56,6 +56,15 @@ h3 {
 
 .versiculoDia{
   margin: 0 !important;
+  padding: 24px 24px 12px 24px;
+  display: flex;
+  justify-content: center;
+  text-align: justify;
+  font-weight: 600;
+}
+
+.versiculoDiaTexto{
+  margin: 12px 24px 24px 24px;
   padding: 24px;
   display: flex;
   justify-content: center;
@@ -90,4 +99,9 @@ h3 {
   padding: 0 !important;
   margin-left: 24px;
   margin-right: 24px;
+}
+
+.input-sentimento{
+  padding: 8px;
+  margin: 24px;
 }

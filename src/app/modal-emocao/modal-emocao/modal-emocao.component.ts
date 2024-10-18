@@ -45,6 +45,7 @@ export class EmocoesModalComponent implements OnInit, AfterViewInit {
   audioPaths: string[] = [
     'assets/louvor-teste.mp3',
     'assets/louvor2.mp3',
+    'assets/louvor3.mp3',
   ];
 
   ngAfterViewInit(): void {
@@ -172,6 +173,8 @@ mostrarReflexao(): void {
 
   // Função para ler a reflexão em voz alta e tocar a música de fundo
 lerReflexao(): void {
+  console.log('Iniciando leitura da reflexão');
+  console.log('Reflexão:', this.reflexao);
   // Se a leitura já está em andamento, para a leitura e o áudio
   if (this.leituraEmAndamento) {
     window.speechSynthesis.cancel(); // Cancela a leitura em andamento
@@ -192,12 +195,14 @@ lerReflexao(): void {
 
   // Iniciar a leitura e tocar o áudio
   utterance.onstart = () => {
+    this.audio.volume = 0.5; // diminue o volume sdo audio
     this.tocarAudioAleatorio(); // Inicia o áudio apenas quando a leitura começar
     this.leituraEmAndamento = true;
   };
 
   // Parar a música e atualizar o estado ao finalizar a leitura
   utterance.onend = () => {
+    this.audio.volume = 1.0;
     this.audio.pause();
     this.audio.currentTime = 0;  // Reinicia a música para a próxima vez
     this.leituraEmAndamento = false;

@@ -1,8 +1,13 @@
-<div class="modal-header">
-  <h5 class="modal-title">Escolha uma emoção</h5>
-  <button (click)="closeModal()">X</button>
-</div>
-<ion-content>
+<ion-header>
+  <ion-toolbar class="modal-header">
+    <ion-title class="modal-title">Escolha uma emoção</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/" (click)="closeModal()">X</ion-button>
+    </ion-buttons>
+    <!-- <button (click)="closeModal()">X</button> -->
+  </ion-toolbar>
+</ion-header>
+  <ion-content>
   <div>
     <!-- Campo de input para digitar a emoção -->
     <ion-label position="stacked">Como você está se sentindo?</ion-label>
