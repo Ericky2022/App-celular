@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar class="modal-header">
-    <ion-title class="modal-title">Escolha uma emoção</ion-title>
+    <ion-title class="modal-title">Emoção</ion-title>
     <ion-buttons slot="end">
       <ion-button routerLink="/" (click)="closeModal()">X</ion-button>
     </ion-buttons>
@@ -25,8 +25,10 @@
         <button *ngIf="!reflexao || reflexao.length === 0" (click)="mostrarReflexao()">Quero uma reflexão</button>
       </div>
       <div *ngIf="reflexao && reflexao.length > 0" class="modal-footer">
-        <ion-icon (click)="lerReflexao()" name="volume-high"></ion-icon>
+        <!-- <ion-icon (click)="lerReflexao()" name="volume-high"></ion-icon> -->
+        <ion-icon (click)="lerVersiculo(reflexao)" name="volume-high"></ion-icon>
         <div id="reflexao" class="reflexao-container" [style.fontSize.px]="fontSize">
+          <!-- <ion-icon (click)="lerVersiculo(reflexao)" name="volume-high">oi</ion-icon> -->
           <p><strong>Reflexão:</strong></p>
           <div *ngFor="let paragrafo of reflexao">
             <p>{{ paragrafo }}</p>

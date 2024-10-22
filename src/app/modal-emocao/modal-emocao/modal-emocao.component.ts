@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, Input } from '@angular/core';
 import { IonInput, ModalController } from '@ionic/angular';
 import { EmocaoServiceService } from 'src/app/services/emocao.service.service';
+import { TextToSpeechService } from 'src/app/services/text-to-speech.service';
 
 @Component({
   selector: 'app-emocoes-modal',
@@ -23,8 +24,10 @@ export class EmocoesModalComponent implements OnInit, AfterViewInit {
   audio: HTMLAudioElement = new Audio();  // Para o áudio da música de fundo
   leituraEmAndamento: boolean = false;
   fontSize: number = 16; // Tamanho da fonte inicial
+  isReading = false;
 
-  constructor(private emocaoService: EmocaoServiceService, private modalController: ModalController, private cdr: ChangeDetectorRef) {}
+
+  constructor(private emocaoService: EmocaoServiceService, private modalController: ModalController, private cdr: ChangeDetectorRef, private ttsService: TextToSpeechService) {}
 
   ngOnInit(): void {
     // Carrega as emoções ao inicializar o modal
@@ -55,6 +58,11 @@ export class EmocoesModalComponent implements OnInit, AfterViewInit {
     'assets/louvor-teste.mp3',
     'assets/louvor2.mp3',
     'assets/louvor3.mp3',
+    'assets/louvor4.mp3',
+    'assets/louvor5.mp3',
+    'assets/louvor6.mp3',
+    'assets/louvor7.mp3',
+    'assets/louvor8.mp3',
   ];
 
   ngAfterViewInit(): void {
@@ -75,8 +83,10 @@ export class EmocoesModalComponent implements OnInit, AfterViewInit {
 
     // Define o novo caminho e toca o áudio
     this.audio.src = caminhoAudio;
-    this.audio.loop = true;
-    this.audio.play();
+    this.audio.loop = false; // Defina como false se não quiser que toque em loop
+    this.audio.play().catch(error => {
+      console.error('Erro ao tentar tocar o áudio:', error);
+    });
   }
 
   // Função chamada ao digitar no campo de busca
@@ -177,53 +187,149 @@ mostrarReflexao(): void {
     console.log("Interface atualizada");
   }
 
+  // lerVersiculo(versiculo: string) {
+  //   if (this.isReading) {
+  //     this.ttsService.stop(); // Para a leitura
+  //     if (this.audio) {
+  //       this.audio.pause(); // Pausa o áudio
+  //       this.audio.currentTime = 0; // Reseta o tempo do áudio
+  //       this.audio.volume = 1; // Restaura o volume original
+  //     }
+  //     this.isReading = false; // Atualiza o estado
+  //   } else {
+  //     console.log('Início da leitura');
+  //     this.ttsService.speak(versiculo) // Lê a reflexão após o versículo
+  //       .then(() => this.pararLeitura()); // Para leitura automaticamente ao final
+
+  //     this.tocarAudioAleatorio();
+
+  //     if (this.audio) {
+  //       this.audio.volume = 0.2; // Diminui o volume do áudio enquanto o texto é lido
+  //     }
+
+  //     this.isReading = true; // Atualiza o estado
+  //   }
+  // }
+
+  lerVersiculo(versiculo: string) {
+    if (this.isReading) {
+      this.ttsService.stop(); // Para a leitura
+      if (this.audio) {
+        this.audio.pause();
+        this.audio.currentTime = 0;
+        this.audio.volume = 1;
+      }
+      this.isReading = false;
+    } else {
+      console.log('Início da leitura');
+      this.tocarAudioAleatorio();
+
+      if (this.audio) {
+        this.audio.volume = 0.25; // Diminui o volume do áudio enquanto o texto é lido
+      }
+
+      this.isReading = true;
+
+      // Iniciar a leitura com uma velocidade normal
+      this.iniciarLeituraComVelocidade(versiculo, 1); // Velocidade inicial
+    }
+  }
+
+  iniciarLeituraComVelocidade(versiculo: string, rate: number) {
+    const utterance = new SpeechSynthesisUtterance(versiculo);
+    utterance.rate = rate; // Define a velocidade de leitura
+
+    utterance.onend = () => {
+      this.pararLeitura();
+    };
+
+    // Fala o versículo
+    window.speechSynthesis.speak(utterance);
+
+    // Diminuir a velocidade no final (quando faltar 4 palavras)
+    const palavras = versiculo.split(' ');
+    const pontoDiminuirVelocidade = palavras.length - 8;
+
+    let palavrasFaladas = 0;
+    utterance.onboundary = (event) => {
+      palavrasFaladas++;
+      if (palavrasFaladas >= pontoDiminuirVelocidade) {
+        utterance.rate = 0.7; // Reduz a velocidade
+      }
+    };
+  }
+
+  pararLeitura() {
+    this.ttsService.stop(); // Garante que o TTS pare
+    if (this.audio) {
+      this.audio.pause(); // Pausa o áudio
+      this.audio.currentTime = 0; // Reseta o áudio
+      this.audio.volume = 1; // Restaura o volume original
+    }
+    this.isReading = false; // Atualiza o estado
+  }
+
+
+  // lerVersiculo(versiculo: string) {
+  //   this.ttsService.speak(versiculo);
+  //   console.log('versiculo ', versiculo);
+  //   console.log('reflexao ', this.reflexao);
+  // }
+
 
 
 
   // Função para ler a reflexão em voz alta e tocar a música de fundo
-lerReflexao(): void {
-  console.log('Iniciando leitura da reflexão');
-  console.log('Reflexão:', this.reflexao);
-  // Se a leitura já está em andamento, para a leitura e o áudio
-  if (this.leituraEmAndamento) {
-    window.speechSynthesis.cancel(); // Cancela a leitura em andamento
-    this.audio.pause(); // Pausa a música de fundo
-    this.audio.currentTime = 0; // Reinicia a música para a próxima vez
-    this.leituraEmAndamento = false;
-    return;
+  lerReflexao(): void {
+    console.log('Iniciando leitura da reflexão');
+    console.log('Reflexão:', this.reflexao);
+
+    // Se a leitura já está em andamento, para a leitura e o áudio
+    if (this.leituraEmAndamento) {
+      window.speechSynthesis.cancel(); // Cancela a leitura em andamento
+      this.audio.pause(); // Pausa a música de fundo
+      this.audio.currentTime = 0; // Reinicia a música para a próxima vez
+      this.leituraEmAndamento = false;
+      return;
+    }
+
+    if (!this.reflexao) {
+      return;
+    }
+
+    // Inicializar a síntese de voz
+    const utterance = new SpeechSynthesisUtterance(this.reflexao);
+    utterance.lang = 'pt-BR';
+    utterance.rate = 1;
+
+    // Iniciar a leitura e tocar o áudio
+    utterance.onstart = () => {
+      this.audio.volume = 0.5; // diminui o volume do áudio
+      this.tocarAudioAleatorio(); // Inicia o áudio
+      this.leituraEmAndamento = true;
+    };
+
+    // Parar a música e atualizar o estado ao finalizar a leitura
+    utterance.onstart = () => {
+      this.audio.volume = 0.5; // Diminui o volume do áudio
+      this.tocarAudioAleatorio(); // Inicia o áudio
+      this.leituraEmAndamento = true;
+    };
+
+    // Usar o serviço de TTS
+    this.ttsService.speak(this.reflexao);
+
+    // Começar a leitura
+    window.speechSynthesis.speak(utterance);
   }
 
-  if (!this.reflexao) {
-    return;
-  }
-
-  // Inicializar a síntese de voz
-  const utterance = new SpeechSynthesisUtterance(this.reflexao);
-  utterance.lang = 'pt-BR';
-  utterance.rate = 1;
-
-  // Iniciar a leitura e tocar o áudio
-  utterance.onstart = () => {
-    this.audio.volume = 0.5; // diminue o volume sdo audio
-    this.tocarAudioAleatorio(); // Inicia o áudio apenas quando a leitura começar
-    this.leituraEmAndamento = true;
-  };
-
-  // Parar a música e atualizar o estado ao finalizar a leitura
-  utterance.onend = () => {
-    this.audio.volume = 1.0;
-    this.audio.pause();
-    this.audio.currentTime = 0;  // Reinicia a música para a próxima vez
-    this.leituraEmAndamento = false;
-  };
-
-  window.speechSynthesis.speak(utterance);
-}
 
   closeModal() {
     // Pausar a música de fundo
     this.audio.pause();
     this.audio.currentTime = 0; // Reinicia a música para a próxima vez
+
+    this.pararLeitura();
 
     // Parar a leitura em voz alta
     window.speechSynthesis.cancel(); // Cancela qualquer leitura em andamento
