@@ -14,7 +14,11 @@ const routes: Routes = [
   {
     path: 'biblia',
     loadChildren: () => import('./biblia/biblia.module').then( m => m.BibliaPageModule)
+  },  {
+    path: 'notificacao-reflexao',
+    loadChildren: () => import('./notificacao-reflexao/notificacao-reflexao.module').then( m => m.NotificacaoReflexaoPageModule)
   },
+
 ];
 
 @NgModule({

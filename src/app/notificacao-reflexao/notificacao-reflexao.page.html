@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ saudacao }}</ion-title> <!-- Saudação dinâmica -->
+    <ion-buttons slot="end">
+      <ion-button (click)="goToHome()"> <!-- Botão Fechar -->
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card-content style="padding: 0;" *ngIf="saudacao !== 'Boa noite!'">
+    <ion-card class="versiculoNotificacao">
+      <h1>Deus mandou te dizer!</h1>
+    </ion-card>
+  </ion-card-content>
+  <ion-card-content style="padding: 0;" *ngIf="saudacao === 'Boa noite!'">
+    <ion-card class="versiculoNotificacao">
+      <h1>Antes de dormir Deus quer falar com você!</h1>
+    </ion-card>
+  </ion-card-content>
+  <ion-card-content style="padding: 0;">
+    <ion-card class="versiculoNotificacao">
+      <h2>{{ versiculo }}</h2>
+    </ion-card>
+  </ion-card-content>
+
+  <ion-button class="btnVerReflexao" (click)="showReflection()">Ver Reflexão</ion-button>
+
+  <ion-icon (click)="lerVersiculo(reflexao)" name="volume-high">oi</ion-icon>
+  <div *ngIf="mostrarReflexao" class="modal-footer">
+      <div id="reflexao" class="reflexao-container" [style.fontSize.px]="fontSize">
+        <ion-icon (click)="lerVersiculo(reflexao)" name="volume-high">oi</ion-icon>
+        <p><strong>Reflexão:</strong></p>
+          <p>{{ reflexao }}</p>
+      </div>
+  </div>
+  <!-- <p>{{ reflexao }}</p> -->
+
+</ion-content>
