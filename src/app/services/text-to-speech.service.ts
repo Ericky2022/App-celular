@@ -5,16 +5,20 @@ import { TextToSpeech } from '@capacitor-community/text-to-speech';
   providedIn: 'root',
 })
 export class TextToSpeechService {
+  isSpeaking = false;
+
+  constructor() {}
 
   async speak(text: string) {
     await TextToSpeech.speak({
       text: text,
-      lang: 'pt-BR',
-      rate: 1.0
+      rate: 1.0,
     });
+    this.isSpeaking = true;
   }
 
   async stop() {
     await TextToSpeech.stop();
+    this.isSpeaking = false;
   }
 }

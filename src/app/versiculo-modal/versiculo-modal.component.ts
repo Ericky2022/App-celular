@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { TextToSpeechService } from '../services/text-to-speech.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-versiculo-modal',
@@ -21,11 +22,13 @@ export class VersiculoModalComponent {
   repetindoTodos: boolean = false;
   repeticaoHabilitada: boolean = false; // Para saber se a repetição está ativada
 
-  constructor(private modalController: ModalController, private tts: TextToSpeechService) {}
+  constructor(private modalController: ModalController, private tts: TextToSpeechService, private router: Router) {}
 
   fecharModal() {
     this.modalClosed.emit();
     this.modalController.dismiss();
+    this.tts.stop();
+    this.router.navigate(["/biblia"])
   }
 
   isVersiculoFocado(versiculo: any): boolean {

@@ -1,0 +1,20 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "meuApp",
+	"webDir": "www",
+	"plugins": {
+		"LocalNotifications": {
+			"smallIcon": "ic_notification",
+			"iconColor": "#488AFF",
+			"sound": "beep.wav"
+		}
+	},
+	"packageClassList": [
+		"TextToSpeechPlugin",
+		"AppPlugin",
+		"HapticsPlugin",
+		"KeyboardPlugin",
+		"LocalNotificationsPlugin",
+		"StatusBarPlugin"
+	]
+}

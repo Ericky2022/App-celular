@@ -4,6 +4,7 @@ import { BibliaService } from '../services/biblia.service';
 import { VersiculoModalComponent } from '../versiculo-modal/versiculo-modal.component';
 import { TextToSpeechService } from '../services/text-to-speech.service';
 import { BibliaHistoricaService } from '../services/biblia-historica.service';
+import { Router } from '@angular/router';
 
 interface Versiculo {
   book_name: string;
@@ -46,7 +47,8 @@ export class BibliaPage implements OnInit {
     private bibliaService: BibliaService,
     private modalController: ModalController,
     private tts: TextToSpeechService,
-    private bibliaHistoricaService: BibliaHistoricaService
+    private bibliaHistoricaService: BibliaHistoricaService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -68,7 +70,23 @@ export class BibliaPage implements OnInit {
   }
 
   lerVersiculo(versiculo: string) {
-    this.tts.speak(versiculo);
+    // Se já estiver falando, para a leitura
+    if (this.tts.isSpeaking) {
+      this.tts.stop();
+      this.tts.isSpeaking = false;
+    } else {
+      // Inicia a leitura do versículo
+      this.tts.speak(versiculo);
+      this.tts.isSpeaking = true;
+    }
+  }
+
+  stop(){
+    if (this.tts.isSpeaking) {
+      this.tts.stop();
+      this.tts.isSpeaking = false;
+    }
+    this.router.navigate(["/"]);
   }
 
   organizarLivros(versiculos: Versiculo[]) {
@@ -115,6 +133,28 @@ export class BibliaPage implements OnInit {
     return null;
   }
 
+  // abrirModal(capitulo: number, livro: string, versiculoFocado?: Versiculo) {
+  //   this.livroSelecionado = livro;
+  //   this.capituloSelecionado = capitulo;
+
+  //   this.modalController.create({
+  //     component: VersiculoModalComponent,
+  //     componentProps: {
+  //       versiculos: this.livros.find(l => l.name === livro)?.capitulos[capitulo],
+  //       livro: livro,
+  //       capitulo: capitulo,
+  //       versiculoFocado: versiculoFocado // Passa o versículo focado
+  //     }
+  //   }).then(modal => {
+  //     modal.onDidDismiss().then(() => {
+  //       this.filterLivros();
+  //       this.livroExpandido = livro;
+  //     });
+  //     modal.present();
+  //   });
+  //   console.log('Livro ',this.livroExpandido, 'versiculo focado', versiculoFocado?.verse);
+  // }
+
   abrirModal(capitulo: number, livro: string, versiculoFocado?: Versiculo) {
     this.livroSelecionado = livro;
     this.capituloSelecionado = capitulo;
@@ -129,12 +169,14 @@ export class BibliaPage implements OnInit {
       }
     }).then(modal => {
       modal.onDidDismiss().then(() => {
-        this.filterLivros();
+        // Ao fechar o modal, ocultar os livros
         this.livroExpandido = livro;
+        this.livrosFiltrados = this.livros.filter(l => l.name === livro); 
       });
       modal.present();
     });
     console.log('Livro ',this.livroExpandido, 'versiculo focado', versiculoFocado?.verse);
+  // }
   }
 
   filtrarResultados(event: any) {

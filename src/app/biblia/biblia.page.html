@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>Bíblia</ion-title>
     <ion-buttons slot="end">
-      <ion-button routerLink="/">Voltar</ion-button>
+      <ion-button (click)="stop()">Voltar</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -19,10 +19,7 @@
   </ion-toolbar>
 
   <ion-list *ngIf="resultados.length > 0">
-    <ion-item
-      *ngFor="let resultado of resultados"
-      (click)="abrirResultado(resultado)"
-    >
+    <ion-item *ngFor="let resultado of resultados" (click)="abrirResultado(resultado)">
       {{ resultado }}
     </ion-item>
   </ion-list>
@@ -56,8 +53,11 @@
             <ion-icon (click)="lerVersiculo('Contexto Histórico')" name="volume-high"></ion-icon>
             <h1 class="historico-titulo" (click)="obterHistorico(livro.name)">Contexto Histórico</h1>
           </div>
-          <ion-icon (click)="lerVersiculo(contextoHistorico)" name="volume-high"></ion-icon>
-          <div class="historico" [innerHTML]="contextoHistorico"></div>
+          <div style="padding-left: 20px;">
+            <ion-icon (click)="lerVersiculo(contextoHistorico)" name="volume-high"></ion-icon>
+          </div>
+          <div class="historico" [innerHTML]="contextoHistorico">
+          </div>
         </ion-list>
       </ion-list>
     </ion-accordion>
