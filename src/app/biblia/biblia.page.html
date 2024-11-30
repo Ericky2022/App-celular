@@ -50,12 +50,12 @@
         <!-- Contexto Histórico -->
         <ion-list>
           <div class="alinha-contexto">
-            <ion-icon (click)="lerVersiculo('Contexto Histórico')" name="volume-high"></ion-icon>
+            <ion-icon (click)="lerVersiculo('Contexto Histórico' + contextoHistorico)" name="volume-high"></ion-icon>
             <h1 class="historico-titulo" (click)="obterHistorico(livro.name)">Contexto Histórico</h1>
           </div>
-          <div style="padding-left: 20px;">
+          <!-- <div style="padding-left: 20px;">
             <ion-icon (click)="lerVersiculo(contextoHistorico)" name="volume-high"></ion-icon>
-          </div>
+          </div> -->
           <div class="historico" [innerHTML]="contextoHistorico">
           </div>
         </ion-list>

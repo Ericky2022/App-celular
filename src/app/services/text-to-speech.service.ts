@@ -9,16 +9,27 @@ export class TextToSpeechService {
 
   constructor() {}
 
-  async speak(text: string) {
-    await TextToSpeech.speak({
-      text: text,
-      rate: 1.0,
-    });
+  speak(text: string): void {
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'pt-BR';
+    utterance.rate = 1;
+    window.speechSynthesis.speak(utterance);
     this.isSpeaking = true;
   }
 
-  async stop() {
-    await TextToSpeech.stop();
-    this.isSpeaking = false;
+  stop(): void {
+    window.speechSynthesis.cancel();
   }
+
+  // async speak(text: string) {
+  //   await TextToSpeech.speak({
+  //     text: text,
+  //     rate: 1.0,
+  //   });
+  // }
+
+  // async stop() {
+  //   await TextToSpeech.stop();
+  //   this.isSpeaking = false;
+  // }
 }

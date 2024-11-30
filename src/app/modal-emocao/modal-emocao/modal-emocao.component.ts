@@ -1,7 +1,8 @@
-import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, ChangeDetectorRef, Input, ElementRef } from '@angular/core';
 import { IonInput, ModalController } from '@ionic/angular';
 import { EmocaoServiceService } from 'src/app/services/emocao.service.service';
 import { TextToSpeechService } from 'src/app/services/text-to-speech.service';
+import * as Hammer from 'hammerjs';
 
 @Component({
   selector: 'app-emocoes-modal',
@@ -10,6 +11,7 @@ import { TextToSpeechService } from 'src/app/services/text-to-speech.service';
 })
 export class EmocoesModalComponent implements OnInit, AfterViewInit {
   @ViewChild('sentimentoInput', { static: false }) sentimentoInputElement!: IonInput;
+  @ViewChild('reflexaoContainer', { static: false }) reflexaoContainer!: ElementRef;
   @Input() sentimentoInicial: string = ''; // Recebe o sentimento inicial
 
   emocoes: string[] = [];
@@ -25,7 +27,6 @@ export class EmocoesModalComponent implements OnInit, AfterViewInit {
   leituraEmAndamento: boolean = false;
   fontSize: number = 16; // Tamanho da fonte inicial
   isReading = false;
-
 
   constructor(private emocaoService: EmocaoServiceService, private modalController: ModalController, private cdr: ChangeDetectorRef, private ttsService: TextToSpeechService) {}
 
@@ -46,12 +47,36 @@ export class EmocoesModalComponent implements OnInit, AfterViewInit {
     this.audio.loop = true;  // Para a música continuar em loop enquanto a reflexão é lida
   }
 
+  ngAfterViewInit(): void {
+    // Define o foco no campo de input assim que o modal estiver pronto
+    setTimeout(() => {
+      this.sentimentoInputElement.setFocus();
+    }, 0);
+
+    // Configura o HammerJS para detectar o gesto de pinça
+    const hammer = new Hammer(this.reflexaoContainer.nativeElement);
+    hammer.get('pinch').set({ enable: true });
+
+    hammer.on('pinch', (event: any) => {
+      this.onPinch(event);
+    });
+  }
+
   onPinch(event: any) {
     if (event.scale > 1) {
       this.fontSize += 2; // Aumenta o tamanho da fonte
     } else {
       this.fontSize = Math.max(12, this.fontSize - 2); // Diminui o tamanho da fonte, sem ir abaixo de 12px
     }
+    this.cdr.detectChanges(); // Adicione esta linha para garantir que a mudança de tamanho da fonte seja detectada
+  }
+
+  aumentarFonte(): void {
+    this.fontSize += 2;
+  }
+
+  diminuirFonte(): void {
+    this.fontSize = Math.max(12, this.fontSize - 2);
   }
 
   audioPaths: string[] = [
@@ -64,14 +89,6 @@ export class EmocoesModalComponent implements OnInit, AfterViewInit {
     'assets/louvor7.mp3',
     'assets/louvor8.mp3',
   ];
-
-  ngAfterViewInit(): void {
-      // Define o foco no campo de input assim que o modal estiver pronto
-      setTimeout(() => {
-        this.sentimentoInputElement.setFocus();
-      }, 0);
-    }
-  // audio: HTMLAudioElement = new Audio();
 
   tocarAudioAleatorio(): void {
     const indiceAleatorio = Math.floor(Math.random() * this.audioPaths.length);
@@ -187,30 +204,6 @@ mostrarReflexao(): void {
     console.log("Interface atualizada");
   }
 
-  // lerVersiculo(versiculo: string) {
-  //   if (this.isReading) {
-  //     this.ttsService.stop(); // Para a leitura
-  //     if (this.audio) {
-  //       this.audio.pause(); // Pausa o áudio
-  //       this.audio.currentTime = 0; // Reseta o tempo do áudio
-  //       this.audio.volume = 1; // Restaura o volume original
-  //     }
-  //     this.isReading = false; // Atualiza o estado
-  //   } else {
-  //     console.log('Início da leitura');
-  //     this.ttsService.speak(versiculo) // Lê a reflexão após o versículo
-  //       .then(() => this.pararLeitura()); // Para leitura automaticamente ao final
-
-  //     this.tocarAudioAleatorio();
-
-  //     if (this.audio) {
-  //       this.audio.volume = 0.2; // Diminui o volume do áudio enquanto o texto é lido
-  //     }
-
-  //     this.isReading = true; // Atualiza o estado
-  //   }
-  // }
-
   lerVersiculo(versiculo: string) {
     if (this.isReading) {
       this.ttsService.stop(); // Para a leitura
@@ -310,19 +303,15 @@ mostrarReflexao(): void {
     };
 
     // Parar a música e atualizar o estado ao finalizar a leitura
-    utterance.onstart = () => {
-      this.audio.volume = 0.5; // Diminui o volume do áudio
-      this.tocarAudioAleatorio(); // Inicia o áudio
-      this.leituraEmAndamento = true;
+    utterance.onend = () => {
+      this.audio.pause(); // Pausa a música de fundo
+      this.audio.currentTime = 0; // Reinicia a música para a próxima vez
+      this.leituraEmAndamento = false;
     };
-
-    // Usar o serviço de TTS
-    this.ttsService.speak(this.reflexao);
 
     // Começar a leitura
     window.speechSynthesis.speak(utterance);
   }
-
 
   closeModal() {
     // Pausar a música de fundo

@@ -50,7 +50,7 @@ export class AppComponent implements OnInit {
         body: versiculoInfo.versiculo,
         id: 2,
         schedule: {
-          at: this.getNextNotificationTime(23, 25),
+          at: this.getNextNotificationTime(15, 40),
           repeat: 'day',
         },
         extra: { reflexao: versiculoInfo.reflexao }

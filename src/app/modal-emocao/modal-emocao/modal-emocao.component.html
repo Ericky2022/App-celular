@@ -4,12 +4,11 @@
     <ion-buttons slot="end">
       <ion-button routerLink="/" (click)="closeModal()">X</ion-button>
     </ion-buttons>
-    <!-- <button (click)="closeModal()">X</button> -->
   </ion-toolbar>
 </ion-header>
-  <ion-content>
+
+<ion-content>
   <div>
-    <!-- Campo de input para digitar a emoção -->
     <ion-label position="stacked">Como você está se sentindo?</ion-label>
     <ion-input #sentimentoInput [(ngModel)]="termoBusca" placeholder="Digite seu sentimento" (ionInput)="buscarEmocao()"></ion-input>
   </div>
@@ -25,10 +24,8 @@
         <button *ngIf="!reflexao || reflexao.length === 0" (click)="mostrarReflexao()">Quero uma reflexão</button>
       </div>
       <div *ngIf="reflexao && reflexao.length > 0" class="modal-footer">
-        <!-- <ion-icon (click)="lerReflexao()" name="volume-high"></ion-icon> -->
         <ion-icon (click)="lerVersiculo(reflexao)" name="volume-high"></ion-icon>
         <div id="reflexao" class="reflexao-container" [style.fontSize.px]="fontSize">
-          <!-- <ion-icon (click)="lerVersiculo(reflexao)" name="volume-high">oi</ion-icon> -->
           <p><strong>Reflexão:</strong></p>
           <div *ngFor="let paragrafo of reflexao">
             <p>{{ paragrafo }}</p>
@@ -36,5 +33,11 @@
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- Botões para ajustar o tamanho da fonte -->
+  <div class="font-size-controls">
+    <ion-button (click)="aumentarFonte()">A+</ion-button>
+    <ion-button (click)="diminuirFonte()">A-</ion-button>
   </div>
 </ion-content>
