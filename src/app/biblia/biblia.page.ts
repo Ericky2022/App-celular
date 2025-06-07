@@ -138,7 +138,8 @@ export class BibliaPage implements OnInit {
   }
 
   filtrarResultados(event: any) {
-    const term = event.target.value.toLowerCase();
+    const searchValue = event.detail?.value ?? event.target?.value ?? '';
+    const term = searchValue.toLowerCase();
     this.resultados = [];
 
     // Filtra livros
