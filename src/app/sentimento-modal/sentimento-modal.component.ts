@@ -84,7 +84,7 @@ export class SentimentoModalComponent {
     'grato': [
       '1 Tessalonicenses 5:18 - Em tudo dai graças.',
       'Salmos 100:4 - Entrai pelas portas dele com gratidão, e em seus átrios, com louvor.',
-      '1 Tessalonicenses 5:18 - "Em tudo dai graças.',
+      '1 Tessalonicenses 5:18 - "Em tudo dai graças."',
       'Salmos 107:1 - Louvai ao Senhor, porque ele é bom; a sua misericórdia dura para sempre.',
       'Colossenses 3:15 - E seja a paz de Cristo, a árbitra em vosso coração, e sede agradecidos.',
       'Salmos 136:1 - Louvai ao Senhor, porque ele é bom, porque a sua misericórdia dura para sempre.',
