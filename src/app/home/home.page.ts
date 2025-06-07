@@ -26,7 +26,7 @@ export class HomePage implements OnInit {
     //   this.versiculos = data.verses; // Armazena os versículos
     //   this.livros = data.livros;
     // });
-    console.log(this.livros); // Mostra os versículos no console
+    console.log(this.livros); // Mostra os livros no console
   }
 
   async abrirModal() {
