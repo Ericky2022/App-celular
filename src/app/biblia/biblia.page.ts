@@ -32,6 +32,7 @@ interface LivroHistorico {
 export class BibliaPage implements OnInit {
   livros: Livro[] = [];
   livrosFiltrados: Livro[] = [];
+  allVerses: Versiculo[] = [];
   livroExpandido: string | null = null;
   livroSelecionado: string | null = null;
   capituloSelecionado: number | null = null;
@@ -40,6 +41,7 @@ export class BibliaPage implements OnInit {
   livrosHistoricos: LivroHistorico[] = [];
   historicoAtual: string[] = [];
   contextoHistorico: string = '';
+  private _searchTimeout: any;
 
 
   constructor(
@@ -77,6 +79,8 @@ export class BibliaPage implements OnInit {
     versiculos.forEach(versiculo => {
       const livro = versiculo.book_name;
       const capitulo = versiculo.chapter;
+
+      this.allVerses.push(versiculo);
 
       if (!livrosMap.has(livro)) {
         livrosMap.set(livro, { name: livro, capitulos: {} });
@@ -139,26 +143,24 @@ export class BibliaPage implements OnInit {
 
   filtrarResultados(event: any) {
     const searchValue = event.detail?.value ?? event.target?.value ?? '';
-    const term = searchValue.toLowerCase();
-    this.resultados = [];
+    clearTimeout((this as any)._searchTimeout);
+    (this as any)._searchTimeout = setTimeout(() => {
+      const term = searchValue.toLowerCase();
+      this.searchTerm = searchValue;
+      this.filterLivros();
+      this.resultados = [];
 
-    // Filtra livros
-    const livrosEncontrados = this.livros.filter(livro =>
-      livro.name.toLowerCase().includes(term)
-    );
-    this.resultados.push(...livrosEncontrados.map(l => l.name));
+      const livrosEncontrados = this.livros.filter(livro =>
+        livro.name.toLowerCase().includes(term)
+      );
+      this.resultados.push(...livrosEncontrados.map(l => l.name));
 
-    // Filtra versículos
-    this.livros.forEach(livro => {
-      Object.keys(livro.capitulos).forEach(capitulo => {
-        const numCapitulo = Number(capitulo);
-        livro.capitulos[numCapitulo].forEach(versiculo => {
-          if (versiculo.text.toLowerCase().includes(term)) {
-            this.resultados.push(`${livro.name} ${numCapitulo}:${versiculo.verse}`);
-          }
-        });
+      this.allVerses.forEach(v => {
+        if (v.text.toLowerCase().includes(term)) {
+          this.resultados.push(`${v.book_name} ${v.chapter}:${v.verse}`);
+        }
       });
-    });
+    }, 300);
   }
 
   abrirResultado(resultado: string) {

@@ -26,9 +26,9 @@
   </ion-list>
 </ion-content> -->
 
-<ion-content>
+<ion-content #content>
   <ion-list>
-    <ion-card *ngFor="let versiculo of versiculos" [ngClass]="{'highlight': isVersiculoFocado(versiculo)}">
+    <ion-card *ngFor="let versiculo of versiculos" [attr.id]="'versiculo-' + capitulo + '-' + versiculo.verse" [ngClass]="{'highlight': isVersiculoFocado(versiculo)}">
       <div class="versiculo" style="display: flex;
     align-items: center;">
     <div class="voz">

@@ -16,6 +16,14 @@ export class VersiculoModalComponent {
 
   constructor(private modalController: ModalController, private tts: TextToSpeechService) { }
 
+  ionViewDidEnter() {
+    if (this.versiculoFocado) {
+      const id = `versiculo-${this.capitulo}-${this.versiculoFocado.verse}`;
+      const el = document.getElementById(id);
+      el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
+
   fecharModal() {
     this.modalClosed.emit(); // Emitir evento ao fechar
     this.modalController.dismiss();
